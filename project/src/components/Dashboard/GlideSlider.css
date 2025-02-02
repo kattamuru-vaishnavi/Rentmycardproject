@@ -1,0 +1,69 @@
+
+.glide-sliders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between each slider */
+    margin-top: 40px;
+     /* Space between the buttons and the sliders */
+  }
+  
+  .glide-container {
+    
+    padding: 20px;
+    width: 60%;  /* Adjust the percentage to control the width */
+    max-width: 500px;
+  }
+  
+  .glide__slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border: 2px solid #020101;
+    border-radius: 8px;
+    background-color: #f4f4f4;
+  }
+  
+  .slide-content {
+    text-align: center;
+  }
+  
+  .glide__slide p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .glide {
+    position: relative;
+    width: 60%;
+    overflow: hidden;
+  }
+  
+  .glide__track {
+    display: flex;
+  }
+  
+  .glide__slides {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .glide__slide {
+    position: relative;
+    flex: 0 0 auto;
+  }
+  
+  @media (max-width: 1200px) {
+    .glide__slide {
+      flex: 0 0 50%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .glide__slide {
+      flex: 0 0 100%;
+    }
+  }
+  
