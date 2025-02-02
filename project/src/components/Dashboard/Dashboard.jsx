@@ -21,8 +21,6 @@ const Dashboard = () => {
   };
 
   const handleProductOrderRequest = () => {
-    alert("New Product Order Request clicked");
-  };
 
   return (
     <div className="dashboard-container">
@@ -63,6 +61,7 @@ const Dashboard = () => {
             </div>
           )}
         </div>
+        
       </div>
     </div>
   );
