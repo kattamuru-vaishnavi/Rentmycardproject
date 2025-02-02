@@ -1,4 +1,3 @@
-// App.jsx
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
@@ -8,7 +7,8 @@ import HowItWorksSection from './components/HowItWorksSection/HowItWorksSection'
 import AuthModal from './components/AuthModal/AuthModal';
 import Dashboard from './components/Dashboard/Dashboard';
 import AddCardForm from './components/Dashboard/AddCardForm';
-
+import ProductOrderRequest from './components/Dashboard/ProductOrderRequest';
+import LandingPage from './components/Dashboard/LandingPage';
 import './index.css';
 
 function App() {
@@ -17,11 +17,14 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [cards, setCards] = useState([]); // New state to hold the card details
 
+ 
   const handleAuthClick = (type) => {
     setAuthType(type);
     setShowAuthModal(true);
   };
-
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+  };
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
     setShowAuthModal(false);
@@ -52,6 +55,8 @@ function App() {
         />
         <main className="pt-20">
           <Routes>
+          <Route path="/product-order-request" element={<ProductOrderRequest />} />
+
             <Route
               path="/"
               element={

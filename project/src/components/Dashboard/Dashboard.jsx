@@ -13,7 +13,7 @@ const Dashboard = ({ cards, onEditCard, onDeleteCard }) => { // Receive cards, o
 
   const handleProductOrderRequest = () => {
     // Add your logic for product order request here
-    alert('New Product Order Request clicked');
+    navigate('/product-order-request');
   };
 
   return (
@@ -63,6 +63,7 @@ const Dashboard = ({ cards, onEditCard, onDeleteCard }) => { // Receive cards, o
             </div>
           )}
         </div>
+        
       </div>
     </div>
   );

@@ -1,0 +1,59 @@
+.product-order-request-container {
+    max-width: 450px;
+    margin: 0px auto;
+    padding: 20px;
+    background-color: #fff;
+    
+    }
+  .product-order-request-sub-container{
+    border: 2px solid #000;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20vh; /* Adjusted to align better with other content */
+    text-align: left; /* Align text to the left for form inputs */
+    background-color: #ffffff;
+  }
+  .product-order-request-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  select {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .product-order-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .product-order-form input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .product-order-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+  }
+  
+  .product-order-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  
