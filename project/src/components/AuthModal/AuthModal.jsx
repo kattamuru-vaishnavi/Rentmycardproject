@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
-import { X, Mail, Lock, User } from 'lucide-react';
-import './AuthModal.css';
-import { Eye, EyeOff } from 'lucide-react';
+import React, { useState } from "react";
+import { X, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router-dom"; // Correct usage inside the component
+import "./AuthModal.css";
 
 const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
+  const navigate = useNavigate(); // Moved inside the component
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
-
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -21,49 +22,68 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    if (errors[name]) setErrors({ ...errors, [name]: '' });
+    if (errors[name]) setErrors({ ...errors, [name]: "" });
   };
 
   const validateForm = () => {
     const newErrors = {};
-    
-    // Trim input values
     const email = formData.email.trim();
     const password = formData.password.trim();
-  
-    if (!email) newErrors.email = 'Email is required';
-    else if (!/^[\w-.]+@([\w-]+\.)+[a-zA-Z]{2,}$/.test(email)) 
-      newErrors.email = 'Enter a valid email';
-  
-    if (!password) newErrors.password = 'Password is required';
-    else if (password.length < 8 || !/\d/.test(password)) 
-      newErrors.password = 'Password must be 8+ chars with at least 1 number';
-  
-    if (type === 'signup') {
-      if (!formData.name.trim()) newErrors.name = 'Name is required';
-      if (!formData.confirmPassword) newErrors.confirmPassword = 'Confirm your password';
-      else if (password !== formData.confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
+
+    if (!email) newErrors.email = "Email is required";
+    else if (!/^[\w-.]+@([\w-]+\.)+[a-zA-Z]{2,}$/.test(email))
+      newErrors.email = "Enter a valid email";
+
+    if (!password) newErrors.password = "Password is required";
+    else if (password.length < 8 || !/\d/.test(password))
+      newErrors.password = "Password must be 8+ chars with at least 1 number";
+
+    if (type === "signup") {
+      if (!formData.name.trim()) newErrors.name = "Name is required";
+      if (!formData.confirmPassword)
+        newErrors.confirmPassword = "Confirm your password";
+      else if (password !== formData.confirmPassword)
+        newErrors.confirmPassword = "Passwords do not match";
     }
-  
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) onLoginSuccess();
+    if (!validateForm()) return;
+
+    const endpoint = type === "signup" ? "/api/auth/signup" : "/api/auth/login";
+
+    try {
+      const response = await fetch(`http://localhost:5000${endpoint}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.msg || "Something went wrong");
+
+      localStorage.setItem("token", data.token);
+      onLoginSuccess(); // Close modal & update authentication state
+      navigate("/"); // Redirect to home page
+    } catch (error) {
+      console.error(error.message); // Log error instead of alert
+    }
   };
 
   return (
     <div className="auth-modal-overlay">
       <div className="auth-modal">
         <button onClick={onClose} className="close-button">
-          <X className="icon"/>
+          <X className="icon" />
         </button>
-        <h2>{type === 'login' ? 'Welcome Back' : 'Create Account'}</h2>
+        <h2>{type === "login" ? "Welcome Back" : "Create Account"}</h2>
         <form onSubmit={handleSubmit} className="auth-form">
-          {type === 'signup' && (
+          {type === "signup" && (
             <div className="form-group">
               <label>Name</label>
               <div className="input-wrapper">
@@ -82,7 +102,7 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
           <div className="form-group">
             <label>Email</label>
             <div className="input-wrapper">
-            <Mail className="input-icon" />
+              <Mail className="input-icon" />
               <input
                 type="email"
                 name="email"
@@ -98,7 +118,7 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
             <div className="input-wrapper">
               <Lock className="input-icon" />
               <input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
@@ -110,12 +130,13 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
             </div>
             {errors.password && <p className="error">{errors.password}</p>}
           </div>
-          {type === 'signup' && (
+          {type === "signup" && (
             <div className="form-group">
               <label>Confirm Password</label>
               <div className="input-wrapper">
-              <Lock className="input-icon" />
+                <Lock className="input-icon" />
                 <input
+                
                   type="password"
                   name="confirmPassword"
                   value={formData.confirmPassword}
@@ -127,14 +148,14 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
             </div>
           )}
           <button type="submit" className="submit-button">
-            {type === 'login' ? 'Sign In' : 'Create Account'}
+            {type === "login" ? "Sign In" : "Create Account"}
           </button>
         </form>
         <div className="auth-switch">
           <p>
-            {type === 'login' ? "Don't have an account? " : 'Already have an account? '}
-            <button onClick={() => onSwitch(type === 'login' ? 'signup' : 'login')}>
-              {type === 'login' ? 'Sign up' : 'Sign in'}
+            {type === "login" ? "Don't have an account? " : "Already have an account? "}
+            <button onClick={() => onSwitch(type === "login" ? "signup" : "login")}>
+              {type === "login" ? "Sign up" : "Sign in"}
             </button>
           </p>
         </div>
