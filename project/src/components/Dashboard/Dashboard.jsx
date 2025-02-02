@@ -1,46 +1,50 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import Sidebar from './Sidebar'; // Import Sidebar component
-import GlideSlider from './GlideSlider'; // Import GlideSlider component
-import './Dashboard.css';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Sidebar from "./Sidebar";
+import GlideSlider from "./GlideSlider";
+import "./Dashboard.css";
 
-const Dashboard = ({ cards, onEditCard, onDeleteCard }) => { // Receive cards, onEditCard, onDeleteCard props
+const Dashboard = () => {
   const navigate = useNavigate();
+  const [cards, setCards] = useState([]);
+  const userId = "replace_with_authenticated_user_id"; // TODO: Replace with actual authenticated user ID
+
+  useEffect(() => {
+    fetch(`http://localhost:5001/api/cards/${userId}`)
+      .then((res) => res.json())
+      .then((data) => setCards(data))
+      .catch((err) => console.error("Error fetching cards:", err));
+  }, [userId]);
 
   const handleCardManagement = () => {
-    navigate('/add-card');
+    navigate("/add-card");
   };
 
   const handleProductOrderRequest = () => {
-    // Add your logic for product order request here
-    alert('New Product Order Request clicked');
+    alert("New Product Order Request clicked");
   };
 
   return (
     <div className="dashboard-container">
-      <Sidebar /> {/* Sidebar on the left */}
+      <Sidebar />
       <div className="dashboard">
         <div className="button-container">
           <button className="dashboard-button" onClick={handleCardManagement}>
-            <div className="button-title">
-              Card Management
-            </div>
+            <div className="button-title">Card Management</div>
             <div className="button-subtitle">
               Add and manage your bank cards with special offers
             </div>
           </button>
           <button className="dashboard-button" onClick={handleProductOrderRequest}>
-            <div className="button-title">
-              New Product Order Request
-            </div>
+            <div className="button-title">New Product Order Request</div>
             <div className="button-subtitle">
               Submit new product order requests
             </div>
           </button>
         </div>
 
-        <GlideSlider /> {/* Add GlideSlider below the buttons */}
-        
+        <GlideSlider />
+
         {/* Cards Section */}
         <div className="cards-section">
           <h2>Your Cards</h2>
@@ -48,16 +52,12 @@ const Dashboard = ({ cards, onEditCard, onDeleteCard }) => { // Receive cards, o
             <p>No cards added yet.</p>
           ) : (
             <div className="cards-list">
-              {cards.map((card, index) => (
-                <div key={index} className="card-item">
+              {cards.map((card) => (
+                <div key={card._id} className="card-item">
                   <h3>{card.name}</h3>
                   <p>Bank: {card.bankName}</p>
                   <p>Card Type: {card.cardType}</p>
                   <p>Amount: ₹{card.amount}</p>
-                  <div className="card-actions">
-                    <button onClick={() => onEditCard(index)} className="edit-button">Edit</button>
-                    <button onClick={() => onDeleteCard(index)} className="delete-button">Delete</button>
-                  </div>
                 </div>
               ))}
             </div>

@@ -17,13 +17,29 @@ const AddCardForm = ({ onAddCard }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Call the onAddCard function to add the card to the state
-    onAddCard(formData);
-    // Navigate back to the dashboard after adding the card
-    navigate('/');
+  
+    try {
+      const userId = "replace_with_authenticated_user_id"; // Fetch from auth state
+      const response = await fetch("http://localhost:5001/api/cards/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, userId }),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Card Added Successfully:", data);
+        navigate("/");
+      } else {
+        console.error("Failed to add card");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
+  
 
   const handleBack = () => {
     navigate(-1); // Navigate to the previous page
