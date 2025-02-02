@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Mail, Lock, User } from 'lucide-react';
 import './AuthModal.css';
+import { Eye, EyeOff } from 'lucide-react';
 
 const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,12 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
   });
   const [errors, setErrors] = useState({});
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -19,21 +26,29 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.email) newErrors.email = 'Email is required';
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email format';
-
-    if (!formData.password) newErrors.password = 'Password is required';
-    else if (formData.password.length < 8) newErrors.password = 'Password must be at least 8 characters';
-
+    
+    // Trim input values
+    const email = formData.email.trim();
+    const password = formData.password.trim();
+  
+    if (!email) newErrors.email = 'Email is required';
+    else if (!/^[\w-.]+@([\w-]+\.)+[a-zA-Z]{2,}$/.test(email)) 
+      newErrors.email = 'Enter a valid email';
+  
+    if (!password) newErrors.password = 'Password is required';
+    else if (password.length < 8 || !/\d/.test(password)) 
+      newErrors.password = 'Password must be 8+ chars with at least 1 number';
+  
     if (type === 'signup') {
-      if (!formData.name) newErrors.name = 'Name is required';
-      if (!formData.confirmPassword) newErrors.confirmPassword = 'Please confirm your password';
-      else if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
+      if (!formData.name.trim()) newErrors.name = 'Name is required';
+      if (!formData.confirmPassword) newErrors.confirmPassword = 'Confirm your password';
+      else if (password !== formData.confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
     }
-
+  
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,7 +67,7 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
             <div className="form-group">
               <label>Name</label>
               <div className="input-wrapper">
-                
+                <User className="input-icon" />
                 <input
                   type="text"
                   name="name"
@@ -67,7 +82,7 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
           <div className="form-group">
             <label>Email</label>
             <div className="input-wrapper">
-              
+            <Mail className="input-icon" />
               <input
                 type="email"
                 name="email"
@@ -81,14 +96,17 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
           <div className="form-group">
             <label>Password</label>
             <div className="input-wrapper">
-              
+              <Lock className="input-icon" />
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
               />
+              <button type="button" className="eye-icon" onClick={togglePasswordVisibility}>
+                {showPassword ? <EyeOff /> : <Eye />}
+              </button>
             </div>
             {errors.password && <p className="error">{errors.password}</p>}
           </div>
@@ -96,7 +114,7 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
             <div className="form-group">
               <label>Confirm Password</label>
               <div className="input-wrapper">
-                
+              <Lock className="input-icon" />
                 <input
                   type="password"
                   name="confirmPassword"
