@@ -1,0 +1,82 @@
+/* AddCardForm.css */
+
+.add-card-container {
+    max-width: 450px;
+    margin: 0px auto;
+    padding: 20px;
+    background-color: #fff;
+    
+  }
+ 
+  .add-card-sub {
+    border: 2px solid #000;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 10vh; /* Adjusted to align better with other content */
+    text-align: left; /* Align text to the left for form inputs */
+    background-color: #ffffff;
+  }
+  
+  .h2 {
+    margin-bottom: 20px;
+  }
+  
+  .card-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  label {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  input,
+  select {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .submit-button {
+    padding: 10px 20px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-button:hover {
+    background-color: #003f7f;
+  }
+  
+  /* Back Button Styling */
+  .back-button-container {
+    display: flex;
+    justify-content: flex-start; /* Aligns the button to the left */
+    margin-bottom: 10px; /* Spacing between the button and form */
+  }
+  
+  .back-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    
+    margin-bottom: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .back-button:hover {
+    background-color: #0056b3;
+  }
+  
