@@ -51,29 +51,42 @@ label {
 }
 
 .input-wrapper {
-  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px; /* Adds spacing between icon and input field */
 }
 
 .input-icon {
-  position: absolute;
-  left: 5px;  /* Move icon outside of input box */
-  top: 50%;
-  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
   color: #666;
-  transition: opacity 0.3s ease; /* Smooth transition for the icon */
-  opacity: 1; /* Ensure icon is visible by default */
 }
 
 input {
-  width: 100%;
-  padding: 12px 10px 12px 40px; /* Increased left padding to avoid overlap with icon */
+  flex: 1; /* Makes the input take up the remaining space */
+  padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
   color: #333;
-  box-sizing: border-box; /* Ensures padding is included in input width */
+  outline: none;
+  background-color: white;
 }
 
+.eye-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  padding: 5px;
+}
+
+
+.eye-icon svg {
+  width: 20px;
+  height: 20px;
+}
 
 
 input::placeholder {
@@ -85,6 +98,7 @@ input::placeholder {
   color: red;
   font-size: 0.875rem;
 }
+
 
 .submit-button {
   background:#4169e1;

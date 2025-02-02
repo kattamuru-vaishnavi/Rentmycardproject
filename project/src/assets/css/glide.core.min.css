@@ -1,14 +1,14 @@
-.glide {
+.carousel-container .glide {
     position: relative;
     width: 100%;
     overflow: hidden;
   }
   
-  .glide__track {
+  .carousel-container .glide__track {
     display: flex;
   }
   
-  .glide__slides {
+  .carousel-container .glide__slides {
     display: flex;
     list-style: none;
     padding: 0;
@@ -20,7 +20,7 @@
     flex: 0 0 auto;
   }
   
-  .glide_arrows {
+  .carousel-container .glide_arrows {
     position: absolute;
     top: 50%;
     left: 10px;
