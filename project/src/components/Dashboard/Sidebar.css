@@ -1,0 +1,42 @@
+/* Sidebar.css */
+
+.sidebar {
+    width: 250px;
+    height: 100vh; /* Full height */
+    background-color: white;; /* Light background color */
+    padding-top: 20px;
+    position: fixed; /* Fixed on the left side */
+    left: 0;
+    margin-top: 100px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+  }
+  
+  .sidebar-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar-item {
+    margin: 20px 0;
+  }
+  
+  .sidebar-item a {
+    text-decoration: none;
+    color: #663046; /* Dark text color */
+    font-size: 1.2rem; /* Adjust text size */
+    display: block;
+    
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .sidebar-item a:hover {
+    background-color:#4169e1; /* Hover effect */
+    color: white; /* Change text color on hover */
+  }
+  
+  .sidebar-item a:active {
+    background-color: #ccc; /* Active state */
+  }
+  
