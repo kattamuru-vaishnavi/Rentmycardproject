@@ -19,10 +19,20 @@ const Dashboard = () => {
       <div className="dashboard">
         <div className="button-container">
           <button className="dashboard-button" onClick={handleCardManagement}>
-            Card Management
+            <div className="button-title">
+              Card Management
+            </div>
+            <div className="button-subtitle">
+              Add and manage your bank cards with special offers
+            </div>
           </button>
           <button className="dashboard-button" onClick={handleProductOrderRequest}>
-            New Product Order Request
+            <div className="button-title">
+              New Product Order Request
+            </div>
+            <div className="button-subtitle">
+              Submit new product order requests
+            </div>
           </button>
         </div>
       </div>
