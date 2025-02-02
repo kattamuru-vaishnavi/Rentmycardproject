@@ -59,7 +59,7 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
     <div className="auth-modal-overlay">
       <div className="auth-modal">
         <button onClick={onClose} className="close-button">
-          <X className="icon" />
+          <X className="icon"/>
         </button>
         <h2>{type === 'login' ? 'Welcome Back' : 'Create Account'}</h2>
         <form onSubmit={handleSubmit} className="auth-form">
