@@ -1,16 +1,19 @@
 import React from 'react';
-import Sidebar from './Sidebar';  // Import Sidebar component
+import { useNavigate } from 'react-router-dom'; 
+import Sidebar from './Sidebar'; // Import Sidebar component
+import GlideSlider from './GlideSlider'; // Import GlideSlider component
 import './Dashboard.css';
 
-const Dashboard = () => {
+const Dashboard = ({ cards, onEditCard, onDeleteCard }) => { // Receive cards, onEditCard, onDeleteCard props
+  const navigate = useNavigate();
+
   const handleCardManagement = () => {
-    // Add your logic for card management here
-    alert('Card Management clicked');
+    navigate('/add-card');
   };
 
   const handleProductOrderRequest = () => {
     // Add your logic for product order request here
-    alert('New Product Order Request clicked');
+    navigate('/product-order-request');
   };
 
   return (
@@ -35,6 +38,32 @@ const Dashboard = () => {
             </div>
           </button>
         </div>
+
+        <GlideSlider /> {/* Add GlideSlider below the buttons */}
+        
+        {/* Cards Section */}
+        <div className="cards-section">
+          <h2>Your Cards</h2>
+          {cards.length === 0 ? (
+            <p>No cards added yet.</p>
+          ) : (
+            <div className="cards-list">
+              {cards.map((card, index) => (
+                <div key={index} className="card-item">
+                  <h3>{card.name}</h3>
+                  <p>Bank: {card.bankName}</p>
+                  <p>Card Type: {card.cardType}</p>
+                  <p>Amount: ₹{card.amount}</p>
+                  <div className="card-actions">
+                    <button onClick={() => onEditCard(index)} className="edit-button">Edit</button>
+                    <button onClick={() => onDeleteCard(index)} className="delete-button">Delete</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+        
       </div>
     </div>
   );

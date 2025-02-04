@@ -10,10 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
     "express": "^4.21.2",
+=======
+    "@glidejs/glide": "^3.7.1",
+>>>>>>> b57e70e6c4da666f9bfaea15e4f97477b1a8eef1
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.1.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
@@ -25,9 +30,13 @@
     "eslint-plugin-react-refresh": "^0.4.11",
     "globals": "^15.9.0",
     "vite": "^5.4.2"
+<<<<<<< HEAD
   },
   "main": "eslint.config.js",
   "author": "",
   "license": "ISC",
   "description": ""
+=======
+  }
+>>>>>>> b57e70e6c4da666f9bfaea15e4f97477b1a8eef1
 }

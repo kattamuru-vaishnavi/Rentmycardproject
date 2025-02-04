@@ -4,10 +4,10 @@
     width: 250px;
     height: 100vh; /* Full height */
     background-color: white;; /* Light background color */
-    padding-top: 20px;
+    padding-top: 2vh;
     position: fixed; /* Fixed on the left side */
     left: 0;
-    margin-top: 100px;
+    margin-top: 70px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
   }
   

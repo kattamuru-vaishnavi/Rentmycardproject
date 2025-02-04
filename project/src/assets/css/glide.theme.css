@@ -1,0 +1,101 @@
+/* Glide Theme Styles */
+.glide {
+    position: relative;
+    width: 60%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: #fff;
+    overflow: hidden;
+  }
+  
+  /* Slides Track */
+  .glide__track {
+    display: flex;
+  }
+  
+  /* Individual Slides */
+  .glide__slides {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    gap: 10px;
+  }
+  
+  .glide__slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    min-height: 200px;
+  }
+  
+  .glide__slide:hover {
+    transform: scale(1.05);
+    background-color: #e0f7fa;
+  }
+  
+  /* Navigation Arrows */
+  .glide_arrows {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 10px;
+    pointer-events: none; /* Prevent overlap issues */
+  }
+  
+  .glide_arrow {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    pointer-events: all; /* Enable click */
+  }
+  
+  .glide_arrow:hover {
+    background-color: #007bff;
+    transform: scale(1.1);
+  }
+  
+  /* Dots (Bullets) for Slide Indicators */
+  .glide__bullets {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  
+  .glide__bullet {
+    width: 12px;
+    height: 12px;
+    background-color: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .glide__bullet--active {
+    background-color: #007bff;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .glide_arrow {
+      padding: 8px;
+    }
+    .glide__slide {
+      padding: 15px;
+    }
+  }
+  
