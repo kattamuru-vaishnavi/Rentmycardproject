@@ -47,11 +47,13 @@ const Dashboard = () => {
       });
   }, [userId]);
 
-  const handleCardManagement = () => setShowAddCardForm(true);
-  const handleProductOrderRequest = () => setShowProductOrderRequestModal(true);
-  const handleCloseModal = () => setShowAddCardForm(false);
-  const handleCloseProductOrderRequestModal = () => setShowProductOrderRequestModal(false);
-  const handleAddRequest = (newRequest) => setRequests([...requests, newRequest]);
+  const handleCardManagement = () => {
+    navigate("/add-card");
+  };
+
+  const handleProductOrderRequest = () => {
+    alert("New Product Order Request clicked");
+  };
 
   return (
     <div className="dashboard-container">
@@ -74,24 +76,6 @@ const Dashboard = () => {
                   <p>Bank: {card.bankName}</p>
                   <p>Card Type: {card.cardType}</p>
                   <p>Amount: ₹{card.amount}</p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className="cards-section2">
-          <h2>Your Requests</h2>
-          {requests.length === 0 ? <p>No requests added yet.</p> : (
-            <div className="cards-list2">
-              {requests.map((product, index) => (
-                <div key={index} className="card-item2">
-                  <h3>{product.name}</h3>
-                  <p>Product Name: {product.productName}</p>
-                  <p>E-commerce Website: {product.ecommerceWebsite}</p>
-                  <p>Product Link: {product.productLink}</p>
-                  <p>Bank Card with Offer: {product.bankName}</p>
-                  <p>Card Type: {product.cardType}</p>
                 </div>
               ))}
             </div>
