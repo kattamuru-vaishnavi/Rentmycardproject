@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { X, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
-import { useNavigate } from "react-router-dom"; // Correct usage inside the component
+import { useNavigate } from "react-router-dom";
 import "./AuthModal.css";
 
 const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
-  const navigate = useNavigate(); // Moved inside the component
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -14,6 +14,7 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
   });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -27,22 +28,20 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
 
   const validateForm = () => {
     const newErrors = {};
-    const email = formData.email.trim();
-    const password = formData.password.trim();
+    const { email, password, confirmPassword, name } = formData;
 
-    if (!email) newErrors.email = "Email is required";
+    if (!email.trim()) newErrors.email = "Email is required";
     else if (!/^[\w-.]+@([\w-]+\.)+[a-zA-Z]{2,}$/.test(email))
       newErrors.email = "Enter a valid email";
 
-    if (!password) newErrors.password = "Password is required";
+    if (!password.trim()) newErrors.password = "Password is required";
     else if (password.length < 8 || !/\d/.test(password))
       newErrors.password = "Password must be 8+ chars with at least 1 number";
 
     if (type === "signup") {
-      if (!formData.name.trim()) newErrors.name = "Name is required";
-      if (!formData.confirmPassword)
-        newErrors.confirmPassword = "Confirm your password";
-      else if (password !== formData.confirmPassword)
+      if (!name.trim()) newErrors.name = "Name is required";
+      if (!confirmPassword) newErrors.confirmPassword = "Confirm your password";
+      else if (password !== confirmPassword)
         newErrors.confirmPassword = "Passwords do not match";
     }
 
@@ -54,6 +53,7 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
     e.preventDefault();
     if (!validateForm()) return;
 
+    setLoading(true);
     const endpoint = type === "signup" ? "/api/auth/signup" : "/api/auth/login";
 
     try {
@@ -65,13 +65,18 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
 
       const data = await response.json();
 
-      if (!response.ok) throw new Error(data.msg || "Something went wrong");
+      if (!response.ok) {
+        throw new Error(data.message || "Something went wrong");
+      }
 
       localStorage.setItem("token", data.token);
-      onLoginSuccess(); // Close modal & update authentication state
-      navigate("/"); // Redirect to home page
+      localStorage.setItem("userId", data.userId); // Store user ID for further requests
+      onLoginSuccess();
+      navigate("/");
     } catch (error) {
-      console.error(error.message); // Log error instead of alert
+      setErrors({ general: error.message });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -82,6 +87,7 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
           <X className="icon" />
         </button>
         <h2>{type === "login" ? "Welcome Back" : "Create Account"}</h2>
+        {errors.general && <p className="error">{errors.general}</p>}
         <form onSubmit={handleSubmit} className="auth-form">
           {type === "signup" && (
             <div className="form-group">
@@ -136,7 +142,6 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
               <div className="input-wrapper">
                 <Lock className="input-icon" />
                 <input
-                
                   type="password"
                   name="confirmPassword"
                   value={formData.confirmPassword}
@@ -147,8 +152,8 @@ const AuthModal = ({ type, onClose, onSwitch, onLoginSuccess }) => {
               {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
             </div>
           )}
-          <button type="submit" className="submit-button">
-            {type === "login" ? "Sign In" : "Create Account"}
+          <button type="submit" className="submit-button" disabled={loading}>
+            {loading ? "Processing..." : type === "login" ? "Sign In" : "Create Account"}
           </button>
         </form>
         <div className="auth-switch">

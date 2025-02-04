@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+import { cardsDB } from "../config/db.js";
 
 const CardSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
@@ -7,5 +8,5 @@ const CardSchema = new mongoose.Schema({
   cardType: { type: String, required: true },
   amount: { type: Number, required: true },
 });
-
-module.exports = mongoose.model("Card", CardSchema);
+const Card = cardsDB.model("Card", CardSchema,"cards");
+export default Card;

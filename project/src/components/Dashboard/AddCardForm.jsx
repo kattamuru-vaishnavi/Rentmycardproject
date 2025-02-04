@@ -1,16 +1,15 @@
-// AddCardForm.jsx
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import './AddCardForm.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./AddCardForm.css";
 
-const AddCardForm = ({ onAddCard }) => {
-  const navigate = useNavigate(); 
-
+const AddCardForm = ({ onAddCard, closeModal }) => {
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
-    name: '',
-    bankName: '',
-    cardType: '',
-    amount: ''
+    name: "",
+    bankName: "",
+    cardType: "",
+    amount: "",
   });
 
   const handleChange = (e) => {
@@ -19,38 +18,60 @@ const AddCardForm = ({ onAddCard }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+
+    if (!token || !userId) {
+      console.error("User is not authenticated");
+      setError("User is not authenticated");
+      return;
+    }
+
     try {
-      const userId = "replace_with_authenticated_user_id"; // Fetch from auth state
-      const response = await fetch("http://localhost:5001/api/cards/add", {
+      const response = await fetch("http://localhost:5000/api/cards/add", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ ...formData, userId }),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         console.log("Card Added Successfully:", data);
-        navigate("/");
+
+        // Call onAddCard to update frontend state
+        if (onAddCard) {
+          onAddCard(data);
+        }
+
+        // Close modal if the function exists
+        if (closeModal) {
+          closeModal();
+        } else {
+          navigate("/"); // Redirect if modal is not used
+        }
       } else {
         console.error("Failed to add card");
       }
     } catch (error) {
+      setError("Error occurred while adding card");
       console.error("Error:", error);
     }
-  };
-  
-
-  const handleBack = () => {
-    navigate(-1); // Navigate to the previous page
   };
 
   return (
     <div className="add-card-container">
       <div className="add-card-sub">
-        <button onClick={handleBack} className="back-button">← Back</button> {/* Back Button */}
-        
+        {closeModal ? (
+          <button onClick={closeModal} className="back-button">× Close</button>
+        ) : (
+          <button onClick={() => navigate(-1)} className="back-button">← Back</button>
+        )}
+
         <h2>Add a Card</h2>
+        {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit} className="card-form">
           <label>
             Name:
